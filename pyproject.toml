@@ -1,0 +1,14 @@
+[project]
+name = "job-api"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi>=0.137.1",
+    "loguru>=0.7.3",
+    "pandas>=3.0.3",
+    "pymysql>=1.2.0",
+    "sqlalchemy>=2.0.50",
+    "uvicorn>=0.49.0",
+]
