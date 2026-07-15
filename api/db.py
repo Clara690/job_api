@@ -9,7 +9,8 @@ from api.config import MYSQL_ACCOUNT, MYSQL_HOST, MYSQL_PASSWORD, MYSQL_PORT
 # create engine for connecting to the database
 engine = create_engine(
     f'mysql+pymysql://{MYSQL_ACCOUNT}:{MYSQL_PASSWORD}@{MYSQL_HOST}:{MYSQL_PORT}/data_jobs',
-    pool_pre_ping=True
+    pool_pre_ping=True,
+    connect_args={"init_command": "SET collation_connection = utf8mb4_0900_ai_ci"},
 )
 # a python dictionary acting as a cache: {city_id: {city_zh, city_en, is_overseas}}
 CITIES_CACHE: dict[int, dict] = {}

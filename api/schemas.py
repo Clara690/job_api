@@ -15,7 +15,7 @@ class CityOut(BaseModel):
 
 class JobOut(BaseModel):
     # represent a single job listing 
-    job_uid = str
+    job_uid : str
     # limit the source to be either of the two
     source: Literal['104', 'Cake']
     job_name: str
@@ -27,7 +27,7 @@ class JobOut(BaseModel):
 
     # CityOut objects, default to an empty list []
     # if a job somehow has no city info at all
-    cities = list[CityOut] = []
+    cities : list[CityOut] = []
 
     # salary fields are all Optional 
     salary_min: Optional[float] = None
@@ -37,7 +37,7 @@ class JobOut(BaseModel):
     link: str
     posted_at: datetime
 
-class JobResponse(BaseModel):
+class JobsResponse(BaseModel):
     # the overall shape of what GET / api / jobs returns: not just a list of jobs, but pagination
     # info alongside it so the frontend knows how many total results exist and which page it's 
     # looking at
