@@ -8,11 +8,9 @@ from sqlalchemy import text
 from api.db import engine, load_cities_cache, cities_for_ids, CITIES_CACHE
 from api.schemas import JobsResponse, JobOut, CityOut, StatsResponse, SourceStats
 
-with engine.connect() as conn:
-    result = conn.execute(text("SHOW VARIABLES LIKE 'collation_connection'")).fetchone()
-    print(result)
 # maximum pages allowed 
 MAX_PAGE_SIZE = 100
+print(CITIES_CACHE)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -47,7 +45,8 @@ def list_jobs(
 
     if q:
 
-        where_clauses.append("(job_name LIKE: q OR company LIKE :q)")
+        # where_clauses.append("(job_name LIKE:q OR company LIKE :q)")
+        where_clauses.append("(job_name LIKE :q OR company LIKE :q)")
         params['q']= f"%{q}%"
     if source:
         where_clauses.append("(source = :source)")
@@ -59,7 +58,7 @@ def list_jobs(
             key = f'city_{i}' # place holder for city name
             city_conditions.append(f'FIND_IN_SET(:{key}, city_ids) > 0')
             params[key] = cid
-            where_clauses.append("("+ " OR ".join(city_conditions)+ ")")
+        where_clauses.append("("+ " OR ".join(city_conditions)+ ")")
 
     if salary_min is not None:
         where_clauses.append("salary_max >= :salary_min")
